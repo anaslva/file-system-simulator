@@ -3,7 +3,9 @@ package br.furb.filesystemsimulator.enums;
 public enum CommandEnum {
 
     PWD("pwd"),
-    ADD_DIR("addir");
+    ADD_DIR("addir"),
+    LIST("list"),
+    CHANGE_DIR("changedir");
 
     private String commandName;
 
@@ -17,6 +19,10 @@ public enum CommandEnum {
                 return PWD;
             case "adddir":
                 return ADD_DIR;
+            case "list":
+                return LIST;
+            case "changedir":
+                return CHANGE_DIR;
             default:
                 return null; // retorna erro na aplicação
         }

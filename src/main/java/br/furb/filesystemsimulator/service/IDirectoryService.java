@@ -7,4 +7,6 @@ import org.springframework.stereotype.Component;
 public interface IDirectoryService {
     void setCurrentDir(String currentDir);
     String getCurrentDir();
+    // lista conteudo do diretório atual
+    void list();
 }

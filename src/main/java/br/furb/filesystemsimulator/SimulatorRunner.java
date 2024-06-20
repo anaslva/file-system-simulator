@@ -24,8 +24,9 @@ public class SimulatorRunner {
 
         while(!"exit".equalsIgnoreCase(input)){
             executeCommand(input);
-            input = keyboardsScanner.nextLine();
             System.out.print(">");
+            input = keyboardsScanner.nextLine();
+
         }
 
         System.out.println("Bye!");
@@ -33,10 +34,24 @@ public class SimulatorRunner {
     }
 
     private void executeCommand(String input){
-        CommandEnum command = CommandEnum.fromString(input);
+        String inputCommand = input;
+        String inputArg = null;
+
+        if(inputCommand.contains(" ")){
+            inputCommand = input.split(" ")[0];
+            inputArg = input.split(" ")[1];
+        }
+
+        CommandEnum command = CommandEnum.fromString(inputCommand);
 
         if(command == CommandEnum.PWD){
-            System.out.print(directoryService.getCurrentDir());
+            System.out.println(directoryService.getCurrentDir());
+        } else if(command == CommandEnum.LIST){
+            directoryService.list();
+        } else if(command == CommandEnum.CHANGE_DIR){
+            directoryService.setCurrentDir(inputArg);
+        }else {
+            System.out.println("Invalid command");
         }
     }
 }
