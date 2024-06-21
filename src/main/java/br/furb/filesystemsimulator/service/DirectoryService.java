@@ -75,6 +75,11 @@ public class DirectoryService implements IDirectoryService{
         setCurrentDir(parentDir);
     }
 
+    @Override
+    public String getSeparator() {
+        return SEPARATOR;
+    }
+
 
     private boolean isValidDir(String dir){
         File existDir = new File(dir);

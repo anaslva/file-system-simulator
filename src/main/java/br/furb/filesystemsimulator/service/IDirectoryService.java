@@ -11,4 +11,5 @@ public interface IDirectoryService {
     void list();
     void createDir(String name);
     void backDir();
+    String getSeparator();
 }

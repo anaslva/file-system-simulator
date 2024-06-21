@@ -2,6 +2,7 @@ package br.furb.filesystemsimulator;
 
 import br.furb.filesystemsimulator.enums.CommandEnum;
 import br.furb.filesystemsimulator.service.IDirectoryService;
+import br.furb.filesystemsimulator.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,8 @@ public class SimulatorRunner {
 
     @Autowired
     private IDirectoryService directoryService;
+    @Autowired
+    private IFileService fileService;
     // inicia console
     public void run(){
         System.out.println("Welcome to simulator");
@@ -37,10 +40,15 @@ public class SimulatorRunner {
         String inputCommand = input;
         String inputArg = null;
 
+        input = input.trim();
         if(inputCommand.contains(" ")){
-            inputCommand = input.split(" ")[0];
-            inputArg = input.split(" ")[1];
+            String[] parts = inputCommand.split("\\s+", 2);
+            inputCommand = parts[0];
+            if (parts.length > 1) {
+                inputArg = parts[1];
+            }
         }
+
 
         CommandEnum command = CommandEnum.fromString(inputCommand);
 
@@ -48,14 +56,27 @@ public class SimulatorRunner {
             System.out.println(directoryService.getCurrentDir());
         } else if(command == CommandEnum.LIST){
             directoryService.list();
-        } else if(command == CommandEnum.CHANGE_DIR){
+        } else if(command == CommandEnum.CHANGE_DIR && isArgValid(inputArg)){
             directoryService.setCurrentDir(inputArg);
-        } else if(command == CommandEnum.ADD_DIR){
+        } else if(command == CommandEnum.ADD_DIR && isArgValid(inputArg)){
             directoryService.createDir(inputArg);
         } else if(command == CommandEnum.BACK_DIR){
             directoryService.backDir();
+        } else if(command == CommandEnum.ADD_FILE && isArgValid(inputArg)){
+            String fileName = directoryService.getCurrentDir() + directoryService.getSeparator() + inputArg;
+            fileService.createNewFile(fileName);
+        } else if(command == CommandEnum.DELETE_FILE && isArgValid(inputArg)){
+            String fileName = directoryService.getCurrentDir() + directoryService.getSeparator() + inputArg;
+            fileService.deleteFile(fileName);
         } else {
             System.out.println("Invalid command");
         }
+    }
+
+    private boolean isArgValid(String arg){
+        if(arg == null){
+            return false;
+        }
+        return !arg.trim().equalsIgnoreCase("");
     }
 }
