@@ -12,4 +12,5 @@ public interface IDirectoryService {
     void createDir(String name);
     void backDir();
     String getSeparator();
+    long diskUsage(String name);
 }

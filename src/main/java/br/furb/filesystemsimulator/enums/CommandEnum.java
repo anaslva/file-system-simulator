@@ -8,7 +8,8 @@ public enum CommandEnum {
     CHANGE_DIR("changedir"),
     BACK_DIR("backdir"),
     ADD_FILE("addfile"),
-    DELETE_FILE("dltfile");
+    DELETE_FILE("dltfile"),
+    DISK_USAGE("diskusage");
 
     private String commandName;
 
@@ -32,6 +33,8 @@ public enum CommandEnum {
                 return ADD_FILE;
             case "dltfile":
                 return DELETE_FILE;
+            case "diskusage":
+                return DISK_USAGE;
             default:
                 return null; // retorna erro na aplicação
         }

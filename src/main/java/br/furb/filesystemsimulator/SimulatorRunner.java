@@ -72,6 +72,15 @@ public class SimulatorRunner {
         } else if(command == CommandEnum.DELETE_FILE && isArgValid(inputArg)){
             String fileName = directoryService.getCurrentDir() + directoryService.getSeparator() + inputArg;
             fileService.deleteFile(fileName);
+        } else if(command == CommandEnum.DISK_USAGE){
+            String fileName = "";
+            if(inputArg != null){
+                fileName = directoryService.getCurrentDir() + directoryService.getSeparator() + inputArg;
+            } else {
+                fileName = directoryService.getCurrentDir();
+            }
+
+            Utils.LogLn(Utils.humanReadableByteCount(directoryService.diskUsage(fileName)), LogColorEnum.DEFAULT);
         } else {
             Utils.LogLn("ERROR - Invalid command!", LogColorEnum.ERROR);
         }

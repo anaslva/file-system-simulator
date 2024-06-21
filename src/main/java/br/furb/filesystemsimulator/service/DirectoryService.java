@@ -82,10 +82,41 @@ public class DirectoryService implements IDirectoryService{
         return SEPARATOR;
     }
 
+    @Override
+    public long diskUsage(String name) {
+
+        if(!isValidDir(name)){
+            Utils.LogLn("ERROR - Directory/File not found!", LogColorEnum.ERROR);
+        }
+
+        File file = new File(name);
+        if (file.isDirectory()) {
+            return calculateDirectorySize(file);
+        } else {
+            return file.length();
+        }
+    }
+
 
     private boolean isValidDir(String dir){
         File existDir = new File(dir);
         return existDir.exists();
+    }
+
+
+    private static long calculateDirectorySize(File directory) {
+        long size = 0;
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    size += calculateDirectorySize(file);
+                } else {
+                    size += file.length();
+                }
+            }
+        }
+        return size;
     }
 }
 
