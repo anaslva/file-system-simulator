@@ -1,5 +1,7 @@
 package br.furb.filesystemsimulator.service;
 
+import br.furb.filesystemsimulator.enums.LogColorEnum;
+import br.furb.filesystemsimulator.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -22,7 +24,7 @@ public class FileService implements IFileService{
             newFile.createNewFile();
 
         } catch (IOException e){
-            System.out.println("ERROR creating new file: " + e);
+            Utils.LogLn("ERROR - Creating new file!" + e, LogColorEnum.ERROR);
         }
 
     }
@@ -33,7 +35,7 @@ public class FileService implements IFileService{
         if(file.exists()){
             file.delete();
         } else {
-            System.out.println("ERROR: File not found!");
+            Utils.LogLn("ERROR - File not found!", LogColorEnum.ERROR);
         }
     }
 }

@@ -1,5 +1,7 @@
 package br.furb.filesystemsimulator.service;
 
+import br.furb.filesystemsimulator.enums.LogColorEnum;
+import br.furb.filesystemsimulator.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -24,7 +26,7 @@ public class DirectoryService implements IDirectoryService{
         if(isValidDir(dirToBe)){
             this.currentDir = dirToBe;
         } else {
-            System.out.println("\u001B[31m" + "Directory not found");
+            Utils.LogLn("ERROR - Directory not found!", LogColorEnum.ERROR);
         }
     }
 
@@ -87,5 +89,3 @@ public class DirectoryService implements IDirectoryService{
     }
 }
 
-
-//TODO - esquema de cores para logs (criar enum com as corres ex: ERRO, ALERTA, DEFAULT)

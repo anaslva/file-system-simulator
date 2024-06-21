@@ -1,8 +1,10 @@
 package br.furb.filesystemsimulator;
 
 import br.furb.filesystemsimulator.enums.CommandEnum;
+import br.furb.filesystemsimulator.enums.LogColorEnum;
 import br.furb.filesystemsimulator.service.IDirectoryService;
 import br.furb.filesystemsimulator.service.IFileService;
+import br.furb.filesystemsimulator.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,22 +19,24 @@ public class SimulatorRunner {
     private IFileService fileService;
     // inicia console
     public void run(){
-        System.out.println("Welcome to simulator");
+
+        Utils.LogWelcome();
 
         Scanner keyboardsScanner = new Scanner(System.in);
         String input = "";
 
-        System.out.print(directoryService.getCurrentDir() + ">");
+        Utils.Log(directoryService.getCurrentDir() + ">", LogColorEnum.DEFAULT);
+
         input = keyboardsScanner.nextLine();
 
         while(!"exit".equalsIgnoreCase(input)){
             executeCommand(input);
-            System.out.print(directoryService.getCurrentDir() + ">");
+            Utils.Log(directoryService.getCurrentDir() + ">", LogColorEnum.DEFAULT);
             input = keyboardsScanner.nextLine();
 
         }
 
-        System.out.println("Bye!");
+        Utils.LogLn("Bye!!!", LogColorEnum.INFO);
         keyboardsScanner.close();
     }
 
@@ -53,7 +57,7 @@ public class SimulatorRunner {
         CommandEnum command = CommandEnum.fromString(inputCommand);
 
         if(command == CommandEnum.PWD){
-            System.out.println(directoryService.getCurrentDir());
+            Utils.LogLn(directoryService.getCurrentDir(), LogColorEnum.DEFAULT);
         } else if(command == CommandEnum.LIST){
             directoryService.list();
         } else if(command == CommandEnum.CHANGE_DIR && isArgValid(inputArg)){
@@ -69,7 +73,7 @@ public class SimulatorRunner {
             String fileName = directoryService.getCurrentDir() + directoryService.getSeparator() + inputArg;
             fileService.deleteFile(fileName);
         } else {
-            System.out.println("Invalid command");
+            Utils.LogLn("ERROR - Invalid command!", LogColorEnum.ERROR);
         }
     }
 
@@ -79,4 +83,5 @@ public class SimulatorRunner {
         }
         return !arg.trim().equalsIgnoreCase("");
     }
+
 }
