@@ -6,25 +6,25 @@ import java.io.File;
 
 @Service
 public class DirectoryService implements IDirectoryService{
-    private final String ROOT = "C:/";
+    private String SEPARATOR = "/";
+    private final String ROOT = "C:" + SEPARATOR;
     private String currentDir = ROOT;
+
     @Override
     public void setCurrentDir(String currentDir) {
         String dirToBe = null;
         if(this.currentDir.equalsIgnoreCase(ROOT)){
             dirToBe = ROOT + currentDir;
-            if(isValidDir(dirToBe)){
-                this.currentDir = dirToBe;
-            } else {
-                System.out.println("\u001B[31m" + "Directory not found");
-            }
+        } else if(currentDir.contains("/")){
+            dirToBe = currentDir;
         } else {
-            dirToBe = this.currentDir + currentDir;
-            if(isValidDir(dirToBe)){
-                this.currentDir = dirToBe;
-            } else {
-                System.out.println("\u001B[31m" + "Directory not found");
-            }
+            dirToBe = this.currentDir + SEPARATOR + currentDir;
+        }
+
+        if(isValidDir(dirToBe)){
+            this.currentDir = dirToBe;
+        } else {
+            System.out.println("\u001B[31m" + "Directory not found");
         }
     }
 
@@ -41,6 +41,38 @@ public class DirectoryService implements IDirectoryService{
         for(String c : content){
             System.out.println(c);
         }
+    }
+
+    @Override
+    public void createDir(String name) {
+        File newDir = new File(this.getCurrentDir() + SEPARATOR + name);
+        newDir.mkdir();
+    }
+
+    @Override
+    public void backDir() {
+        if(ROOT.equalsIgnoreCase(currentDir)){
+            return;
+        }
+
+        String[] dirs = currentDir.split(SEPARATOR);
+        String parentDir = "";
+
+        if(dirs.length == 2){
+            parentDir = ROOT;
+        } else {
+            for(int i = 0; i < dirs.length-1; i++){
+
+                if(i == 0){
+                    parentDir = dirs[i];
+                } else {
+                    parentDir = parentDir + SEPARATOR + dirs[i];
+                }
+
+            }
+        }
+
+        setCurrentDir(parentDir);
     }
 
 

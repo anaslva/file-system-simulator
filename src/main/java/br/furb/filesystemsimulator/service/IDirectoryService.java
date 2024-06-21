@@ -9,4 +9,6 @@ public interface IDirectoryService {
     String getCurrentDir();
     // lista conteudo do diretório atual
     void list();
+    void createDir(String name);
+    void backDir();
 }

@@ -5,7 +5,8 @@ public enum CommandEnum {
     PWD("pwd"),
     ADD_DIR("addir"),
     LIST("list"),
-    CHANGE_DIR("changedir");
+    CHANGE_DIR("changedir"),
+    BACK_DIR("backdir");
 
     private String commandName;
 
@@ -23,6 +24,8 @@ public enum CommandEnum {
                 return LIST;
             case "changedir":
                 return CHANGE_DIR;
+            case "backdir":
+                return BACK_DIR;
             default:
                 return null; // retorna erro na aplicação
         }

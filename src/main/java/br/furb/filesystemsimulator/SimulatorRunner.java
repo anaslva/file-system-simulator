@@ -19,12 +19,12 @@ public class SimulatorRunner {
         Scanner keyboardsScanner = new Scanner(System.in);
         String input = "";
 
-        System.out.print(">");
+        System.out.print(directoryService.getCurrentDir() + ">");
         input = keyboardsScanner.nextLine();
 
         while(!"exit".equalsIgnoreCase(input)){
             executeCommand(input);
-            System.out.print(">");
+            System.out.print(directoryService.getCurrentDir() + ">");
             input = keyboardsScanner.nextLine();
 
         }
@@ -50,7 +50,11 @@ public class SimulatorRunner {
             directoryService.list();
         } else if(command == CommandEnum.CHANGE_DIR){
             directoryService.setCurrentDir(inputArg);
-        }else {
+        } else if(command == CommandEnum.ADD_DIR){
+            directoryService.createDir(inputArg);
+        } else if(command == CommandEnum.BACK_DIR){
+            directoryService.backDir();
+        } else {
             System.out.println("Invalid command");
         }
     }
